@@ -23,7 +23,7 @@ public class UsuarioModelo {
 
     
 /**
- * meodo que verifica que el uduario no exista
+ * meodo que verifica que el usuario no exista
  * @param candidato
  * @param candidatos
  * @return

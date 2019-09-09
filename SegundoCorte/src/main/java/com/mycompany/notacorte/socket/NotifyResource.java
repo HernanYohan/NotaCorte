@@ -11,7 +11,8 @@ import org.primefaces.push.annotation.PushEndpoint;
 import org.primefaces.push.impl.JSONEncoder;
 
 /**
- *
+ * Notifica un nuevo inscrito 
+ *@author Hernan Hernandez
  * @author CamiloAlvarez
  */
 @PushEndpoint("/noti")

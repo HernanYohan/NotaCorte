@@ -72,6 +72,10 @@ public class Index implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }   
+    
+    /**
+     * Funcion para eliminar candidatos
+     */
   
     public void eliminar(){
         lista.getCandidatos().remove(candidato);
@@ -79,6 +83,9 @@ public class Index implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
+    /**
+     * metodo para notificar y refrescar el admin y ver todos los inscritos 
+     */
     public void notificarPUSH(){
         
         String summary ="Nuevo Elemento";
@@ -88,12 +95,18 @@ public class Index implements Serializable {
         EventBus eventbus = EventBusFactory.getDefault().eventBus();
    //     eventbus.publish(CHANNEL,new FacesMessage(StringEscapeUtils.escapeHtml3(summary),StringEscapeUtils.escapeHtml3(detail)));
     }
-    
+    /**
+     * metodo que sirve para editar dentro de una tabla
+     * @param event 
+     */
     public void onRowEdit(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Se Edito A:", ((Usuario) event.getObject()).getNombre());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-     
+     /**
+      * metodo para cancelar la edicion 
+      * @param event 
+      */
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Se Cancelo La Edicion A: ", ((Usuario) event.getObject()).getNombre());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -108,11 +121,15 @@ public class Index implements Serializable {
     public void setLista(Lista lista) {
         this.lista = lista;
     }
-
+    /**
+     * metodo que hace la variable publica 
+     */
     public Usuario getCandidato() {
         return candidato;
     }
-
+    /**
+     * metodo que hace la variable publica 
+     */
     public void setCandidato(Usuario candidato) {
         this.candidato = candidato;
     }

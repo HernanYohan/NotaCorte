@@ -33,11 +33,18 @@ public class Lista implements Serializable {
     public Lista() {
         candidatos = new ArrayList<>();
     }
-
+    /**
+     * Metodo que hace pulica la variable
+     * @return 
+     */
     public List<Usuario> getCandidatos() {
         return candidatos;
     }
 
+    /**
+     * metodo que hace publica la variable 
+     * @param candidatos 
+     */
     public void setCandidatos(List<Usuario> candidatos) {
         this.candidatos = candidatos;
     }

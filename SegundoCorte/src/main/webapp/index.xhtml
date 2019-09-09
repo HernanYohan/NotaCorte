@@ -12,7 +12,6 @@
             <ui:define name="content">
                 <p:growl id="msj" widgetVar="wmsj" showDetail="true"/>
                 <p:socket onMessage="handleMessage" channel="/noti">
-                    <p:ajax event="message" update=":form:tabla" />
                 </p:socket>
                 <script type="text/javascript">
                     function handleMessage (facesmessage){
@@ -22,27 +21,7 @@
                     }
                     
                 </script>
-                <h:form id="form" enctype="multipart/form-data">
-
-                    <p:dataTable id="tabla" var="user" value="#{index.lista.candidatos}">
-                        <p:column headerText="Cedula">
-                            <h:outputText value="#{user.cedula}" />
-                        </p:column>
-
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{user.nombre}" />
-                        </p:column>
-
-                        <p:column headerText="Apellido">
-                            <h:outputText value="#{user.apellido}" />
-                        </p:column>
-
-                        
-                    </p:dataTable>
-
-
-
-                </h:form>
+                
             </ui:define>
 
         </ui:composition>

@@ -39,7 +39,8 @@
                         <br></br>
 
                         <p:dataTable  var="can" value="#{index.lista.candidatos}" editable="true" style="margin-bottom:20px">
-                            
+                            <p:ajax event="rowEdit" listener="#{index.onRowEdit}" />
+                            <p:ajax event="rowEditCancel" listener="#{index.onRowCancel}" />
                             <p:column headerText="Cedula">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{can.cedula}" /></f:facet>
@@ -64,7 +65,14 @@
                                 <p:rowEditor />
                             </p:column>
 
-                            
+                            <p:column headerText="">
+                                <p:commandLink update=":form" action="#{index.eliminar()}" title="View Detail">
+                                    <h:outputText value="Eliminar"  styleClass="pi pi-search" style="margin:0 auto;"/>
+                                    <f:setPropertyActionListener value="#{can}" target="#{index.candidato}" />
+                                </p:commandLink>
+                            </p:column>
+
+
 
                         </p:dataTable>
                     </center>

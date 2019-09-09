@@ -7,22 +7,15 @@ package com.mycompany.notacorte.beans;
 
 import com.mycompany.notacorte.modelos.UsuarioModelo;
 import com.mycompany.notacorte.pojo.Usuario;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.model.UploadedFile;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
-import org.atmosphere.util.StringEscapeUtils;
 
 /**
  * @Hernan Hernandez
@@ -60,16 +53,14 @@ public class Index implements Serializable {
         try {
 
             if (controlador.agregarCandidato(candidato, lista.getCandidatos())) {
-                notificarPUSH("Usuario Agregado");
+                notificarPUSH("Usuario: "+candidato.getNombre()+" Agregado");
                 lista.getCandidatos().add(candidato);
 
-                FacesMessage msg = new FacesMessage("Aviso", "Usuario Agregado!!");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
             }
 
         } catch (Exception e) {
-            FacesMessage msg = new FacesMessage("Aviso", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+             notificarPUSH(e.getMessage());
+            
         }
     }
 
@@ -77,11 +68,10 @@ public class Index implements Serializable {
      * Funcion para eliminar candidatos
      */
     public void eliminar() {
-        notificarPUSH("Usuario Eliminado");
-
+        notificarPUSH("Usuario: "+candidato.getNombre()+" Eliminado");
+        System.out.println("hola");
         lista.getCandidatos().remove(candidato);
-        FacesMessage msg = new FacesMessage("Eliminado", "Usuario: " + candidato.getNombre());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+    
     }
 
     /**
@@ -101,10 +91,9 @@ public class Index implements Serializable {
      * @param event
      */
     public void onRowEdit(RowEditEvent event) {
-        notificarPUSH("Usuario Editado");
+        notificarPUSH("Usuario: "+((Usuario) event.getObject()).getNombre()+" Editado");
 
-        FacesMessage msg = new FacesMessage("Se Edito A:", ((Usuario) event.getObject()).getNombre());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+       
     }
 
     /**
@@ -113,8 +102,8 @@ public class Index implements Serializable {
      * @param event
      */
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Se Cancelo La Edicion A: ", ((Usuario) event.getObject()).getNombre());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        notificarPUSH("Cancelada Edicion");
+       
     }
 
     public Lista getLista() {

@@ -25,7 +25,7 @@ import org.primefaces.push.EventBusFactory;
 import org.atmosphere.util.StringEscapeUtils;
 
 /**
- *@Hernan Hernandez
+ * @Hernan Hernandez
  * @author Camilo Alvarez
  */
 @ManagedBean
@@ -33,108 +33,113 @@ import org.atmosphere.util.StringEscapeUtils;
 public class Index implements Serializable {
 
     /**
-     *Se instanic candidato
+     * Se instanic candidato
      */
     private Usuario candidato;
 
     /**
-     *Etiqueta que isrve para traer los datos de otros bean 
+     * Etiqueta que isrve para traer los datos de otros bean
      */
     @ManagedProperty("#{lista}")
     private Lista lista;
 
-   
     /**
      * Creates a new instance of Index
      */
     public Index() {
         System.out.println("Constructor!!!");
         candidato = new Usuario();
-        
+
     }
+
     /**
      * metodo que sirve para guardar en la lista los candidatos
      */
     public void agregarCandidato() {
         UsuarioModelo controlador = new UsuarioModelo();
         try {
-            
+
             if (controlador.agregarCandidato(candidato, lista.getCandidatos())) {
-                notificarPUSH();
+                notificarPUSH("Usuario Agregado");
                 lista.getCandidatos().add(candidato);
-                
+
                 FacesMessage msg = new FacesMessage("Aviso", "Usuario Agregado!!");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
-            
+
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Aviso", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-    }   
-    
+    }
+
     /**
      * Funcion para eliminar candidatos
      */
-  
-    public void eliminar(){
+    public void eliminar() {
+        notificarPUSH("Usuario Eliminado");
+
         lista.getCandidatos().remove(candidato);
-        FacesMessage msg = new FacesMessage("Eliminado", "Usuario: "+candidato.getNombre());
+        FacesMessage msg = new FacesMessage("Eliminado", "Usuario: " + candidato.getNombre());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
+
     /**
-     * metodo para notificar y refrescar el admin y ver todos los inscritos 
+     * metodo para notificar y refrescar el admin y ver todos los inscritos
      */
-    public void notificarPUSH(){
-        
-        String summary ="Nuevo Elemento";
-        String detail = "Agregado";
+    public void notificarPUSH(String msg) {
+
         String CHANNEL = "/noti";
-        
+
         EventBus eventbus = EventBusFactory.getDefault().eventBus();
-   //     eventbus.publish(CHANNEL,new FacesMessage(StringEscapeUtils.escapeHtml3(summary),StringEscapeUtils.escapeHtml3(detail)));
+        eventbus.publish(CHANNEL, new FacesMessage("Aviso", msg));
     }
+
     /**
      * metodo que sirve para editar dentro de una tabla
-     * @param event 
+     *
+     * @param event
      */
     public void onRowEdit(RowEditEvent event) {
+        notificarPUSH("Usuario Editado");
+
         FacesMessage msg = new FacesMessage("Se Edito A:", ((Usuario) event.getObject()).getNombre());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-     /**
-      * metodo para cancelar la edicion 
-      * @param event 
-      */
+
+    /**
+     * metodo para cancelar la edicion
+     *
+     * @param event
+     */
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Se Cancelo La Edicion A: ", ((Usuario) event.getObject()).getNombre());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
+
     public Lista getLista() {
         return lista;
     }
+
     /**
-     * metodo que hace la variable publica 
+     * metodo que hace la variable publica
      */
     public void setLista(Lista lista) {
         this.lista = lista;
     }
+
     /**
-     * metodo que hace la variable publica 
+     * metodo que hace la variable publica
      */
     public Usuario getCandidato() {
         return candidato;
     }
+
     /**
-     * metodo que hace la variable publica 
+     * metodo que hace la variable publica
      */
     public void setCandidato(Usuario candidato) {
         this.candidato = candidato;
     }
-    
-    
-     
 
 }
